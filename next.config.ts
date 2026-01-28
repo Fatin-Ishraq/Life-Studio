@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ['lh3.googleusercontent.com', 'firebasestorage.googleapis.com'],
+  },
+  // PWA config will be added later
   reactCompiler: true,
 };
 
