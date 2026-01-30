@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { Plus, X } from 'lucide-react';
 import { ProjectCard } from './ProjectCard';
 import { getProjectsWithStats, createProject } from '@/lib/supabase/projectService';
@@ -17,7 +18,18 @@ const DEFAULT_COLORS = [
     '#34495e', // Dark Gray
 ];
 
+const COLOR_BG_MAP: Record<string, string> = {
+    '#4a90e2': 'bg-[#4a90e2]',
+    '#9b59b6': 'bg-[#9b59b6]',
+    '#e74c3c': 'bg-[#e74c3c]',
+    '#f39c12': 'bg-[#f39c12]',
+    '#23bd9eff': 'bg-[#23bd9eff]',
+    '#34495e': 'bg-[#34495e]',
+};
+
+
 export function ProjectsList() {
+    const router = useRouter();
     const { supabaseUser } = useAuth();
     const [projects, setProjects] = useState<ProjectWithStats[]>([]);
     const [loading, setLoading] = useState(true);
@@ -85,13 +97,20 @@ export function ProjectsList() {
     }
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 p-1 pt-0">
             {/* Header */}
             <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-neutral-900">Projects</h2>
+                <div>
+                    <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-neutral-600 dark:from-white dark:to-neutral-400">
+                        Projects
+                    </h2>
+                    <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 font-medium">
+                        Focus areas & health
+                    </p>
+                </div>
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="btn-primary flex items-center gap-2 text-sm"
+                    className="px-4 py-2.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-medium hover:bg-neutral-800 dark:hover:bg-neutral-100 active:scale-95 transition-all duration-200 flex items-center gap-2 shadow-lg shadow-neutral-200 dark:shadow-black/20"
                 >
                     <Plus className="h-4 w-4" />
                     New Project
@@ -100,20 +119,20 @@ export function ProjectsList() {
 
             {/* Projects Grid */}
             {projects.length === 0 ? (
-                <div className="card p-12 text-center">
+                <div className="card p-12 text-center backdrop-blur-sm bg-white/40 dark:bg-neutral-800/40 border border-white/20 dark:border-white/10 shadow-lg dark:shadow-black/20">
                     <div className="max-w-xs mx-auto">
-                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-50 flex items-center justify-center">
-                            <Plus className="h-8 w-8 text-primary-500" />
+                        <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center">
+                            <Plus className="h-8 w-8 text-neutral-900 dark:text-white" />
                         </div>
-                        <h3 className="text-lg font-medium text-neutral-900 mb-2">
+                        <h3 className="text-xl font-black text-neutral-900 dark:text-white mb-2">
                             No projects yet
                         </h3>
-                        <p className="text-sm text-neutral-600 mb-4">
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-6 font-medium">
                             Get started by creating your first project to organize your work
                         </p>
                         <button
                             onClick={() => setIsCreating(true)}
-                            className="btn-primary inline-flex items-center gap-2"
+                            className="w-full px-4 py-3 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-bold hover:bg-neutral-800 dark:hover:bg-neutral-100 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-neutral-200 dark:shadow-black/20"
                         >
                             <Plus className="h-4 w-4" />
                             Create First Project
@@ -128,8 +147,7 @@ export function ProjectsList() {
                             project={project}
                             stats={project.stats}
                             onClick={() => {
-                                // TODO: Open project detail modal
-                                console.log('Open project:', project.name);
+                                router.push(`/dashboard/projects/${project.id}`);
                             }}
                         />
                     ))}
@@ -138,95 +156,107 @@ export function ProjectsList() {
 
             {/* Create Project Modal */}
             {isCreating && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-scale-in">
-                        {/* Modal Header */}
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-semibold text-neutral-900">
-                                New Project
-                            </h3>
-                            <button
-                                onClick={() => setIsCreating(false)}
-                                className="text-neutral-400 hover:text-neutral-600 transition-colors"
-                                aria-label="Close"
-                            >
-                                <X className="h-5 w-5" />
-                            </button>
-                        </div>
+                <div className="fixed inset-0 flex items-center justify-center z-[1000] px-4">
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-neutral-900/40 backdrop-blur-md animate-fade-in"
+                        onClick={() => setIsCreating(false)}
+                    />
 
-                        {/* Form */}
-                        <form onSubmit={handleCreateProject} className="space-y-4">
-                            <div>
-                                <label htmlFor="project-name" className="block text-sm font-medium text-neutral-700 mb-1">
-                                    Project Name
-                                </label>
-                                <input
-                                    id="project-name"
-                                    type="text"
-                                    value={newProjectForm.name}
-                                    onChange={(e) => setNewProjectForm({ ...newProjectForm, name: e.target.value })}
-                                    className="input w-full"
-                                    placeholder="e.g., Life Cockpit Development"
-                                    required
-                                    autoFocus
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="project-description" className="block text-sm font-medium text-neutral-700 mb-1">
-                                    Description (optional)
-                                </label>
-                                <textarea
-                                    id="project-description"
-                                    value={newProjectForm.description}
-                                    onChange={(e) => setNewProjectForm({ ...newProjectForm, description: e.target.value })}
-                                    className="input w-full resize-none"
-                                    placeholder="What is this project about?"
-                                    rows={3}
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-neutral-700 mb-2">
-                                    Color
-                                </label>
-                                <div className="flex gap-2">
-                                    {DEFAULT_COLORS.map((color) => (
-                                        <button
-                                            key={color}
-                                            type="button"
-                                            onClick={() => setNewProjectForm({ ...newProjectForm, color })}
-                                            className={cn(
-                                                "w-10 h-10 rounded-full transition-all",
-                                                newProjectForm.color === color
-                                                    ? "ring-2 ring-offset-2 ring-primary-500 scale-110"
-                                                    : "hover:scale-105"
-                                            )}
-                                            style={{ backgroundColor: color }}
-                                            aria-label={`Select ${color}`}
-                                        />
-                                    ))}
+                    {/* Modal Content */}
+                    <div className="bg-white/90 dark:bg-neutral-900/90 backdrop-blur-2xl rounded-[32px] shadow-2xl border border-white/20 dark:border-white/10 max-w-md w-full max-h-[90vh] overflow-y-auto animate-scale-in relative z-10 custom-scrollbar">
+                        <div className="p-8">
+                            {/* Modal Header */}
+                            <div className="flex items-center justify-between mb-8">
+                                <div>
+                                    <h3 className="text-2xl font-black text-neutral-900 dark:text-white tracking-tight">
+                                        Found New Project
+                                    </h3>
+                                    <p className="text-sm text-neutral-500 dark:text-neutral-400 font-medium">Define a new focus area</p>
                                 </div>
+                                <button
+                                    onClick={() => setIsCreating(false)}
+                                    className="p-2 rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-all"
+                                    aria-label="Close"
+                                >
+                                    <X className="h-6 w-6" />
+                                </button>
                             </div>
 
-                            {/* Actions */}
-                            <div className="flex gap-3 pt-2">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsCreating(false)}
-                                    className="btn-ghost flex-1"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="btn-primary flex-1"
-                                    disabled={!newProjectForm.name.trim()}
-                                >
-                                    Create Project
-                                </button>
-                            </div>
-                        </form>
+                            {/* Form */}
+                            <form onSubmit={handleCreateProject} className="space-y-6">
+                                <div className="space-y-2">
+                                    <label htmlFor="project-name" className="text-[10px] font-black uppercase text-neutral-400 dark:text-neutral-500 tracking-widest block pl-1">
+                                        Project Name
+                                    </label>
+                                    <input
+                                        id="project-name"
+                                        type="text"
+                                        value={newProjectForm.name}
+                                        onChange={(e) => setNewProjectForm({ ...newProjectForm, name: e.target.value })}
+                                        className="w-full px-5 py-4 bg-neutral-50 dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-900/5 dark:focus:ring-white/5 focus:border-neutral-900 dark:focus:border-white transition-all font-bold text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
+                                        placeholder="e.g., Creative Pursuit"
+                                        required
+                                        autoFocus
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="project-description" className="text-[10px] font-black uppercase text-neutral-400 dark:text-neutral-500 tracking-widest block pl-1">
+                                        Description
+                                    </label>
+                                    <textarea
+                                        id="project-description"
+                                        value={newProjectForm.description}
+                                        onChange={(e) => setNewProjectForm({ ...newProjectForm, description: e.target.value })}
+                                        className="w-full px-5 py-4 bg-neutral-50 dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-900/5 dark:focus:ring-white/5 focus:border-neutral-900 dark:focus:border-white transition-all font-medium text-neutral-900 dark:text-white resize-none placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
+                                        placeholder="What is the goal of this project?"
+                                        rows={3}
+                                    />
+                                </div>
+
+                                <fieldset className="space-y-3">
+                                    <legend className="text-[10px] font-black uppercase text-neutral-400 tracking-widest block pl-1">
+                                        Visual Identity
+                                    </legend>
+                                    <div className="flex gap-3 mt-3">
+                                        {DEFAULT_COLORS.map((color) => (
+                                            <button
+                                                key={color}
+                                                type="button"
+                                                onClick={() => setNewProjectForm({ ...newProjectForm, color })}
+                                                className={cn(
+                                                    "w-10 h-10 rounded-full transition-all border-2",
+                                                    COLOR_BG_MAP[color] || "bg-neutral-400",
+                                                    newProjectForm.color === color
+                                                        ? "border-neutral-900 dark:border-white scale-110 shadow-lg"
+                                                        : "border-transparent hover:scale-105"
+                                                )}
+                                                aria-label={`Select color ${color}`}
+                                            />
+                                        ))}
+                                    </div>
+                                </fieldset>
+
+                                {/* Actions */}
+                                <div className="flex gap-4 pt-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsCreating(false)}
+                                        className="flex-1 py-4 font-bold text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="flex-[2] py-4 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-2xl font-bold text-lg hover:bg-neutral-800 dark:hover:bg-neutral-100 active:scale-[0.98] transition-all shadow-xl shadow-neutral-200 dark:shadow-black/20"
+                                        disabled={!newProjectForm.name.trim()}
+                                    >
+                                        Launch Project
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}

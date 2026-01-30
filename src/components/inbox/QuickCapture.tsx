@@ -76,9 +76,9 @@ export function QuickCapture({ onCaptureAdded }: QuickCaptureProps) {
             <div
                 className={cn(
                     "relative overflow-hidden rounded-[28px] transition-all duration-300",
-                    "bg-gradient-to-br from-white/90 to-white/60 backdrop-blur-xl",
-                    "border border-white/20 shadow-lg shadow-neutral-100/50",
-                    isFocused && "shadow-2xl shadow-neutral-200/50 border-neutral-200"
+                    "bg-gradient-to-br from-white/90 to-white/60 dark:from-neutral-800/90 dark:to-neutral-900/60 backdrop-blur-xl",
+                    "border border-white/20 dark:border-white/10 shadow-lg shadow-neutral-100/50 dark:shadow-black/20",
+                    isFocused && "shadow-2xl shadow-neutral-200/50 dark:shadow-black/30 border-neutral-200 dark:border-neutral-600"
                 )}
             >
                 {/* Success Flash */}
@@ -108,7 +108,7 @@ export function QuickCapture({ onCaptureAdded }: QuickCaptureProps) {
                                 onBlur={() => setIsFocused(false)}
                                 onKeyDown={handleKeyDown}
                                 placeholder="What's on your mind?"
-                                className="w-full bg-transparent border-none outline-none text-neutral-900 placeholder:text-neutral-400 text-base font-medium"
+                                className="w-full bg-transparent border-none outline-none text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500 text-base font-medium"
                                 disabled={isSubmitting}
                             />
                             <div className="flex items-center gap-2 mt-1">
@@ -145,7 +145,7 @@ export function QuickCapture({ onCaptureAdded }: QuickCaptureProps) {
 
                     {/* Hints */}
                     {isFocused && (
-                        <div className="mt-4 pt-4 border-t border-neutral-100 animate-fade-in">
+                        <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-700 animate-fade-in">
                             <div className="flex flex-wrap gap-3">
                                 {[
                                     { prefix: '[]', label: 'Task', color: 'text-blue-500' },
@@ -154,7 +154,7 @@ export function QuickCapture({ onCaptureAdded }: QuickCaptureProps) {
                                     { prefix: 'project:', label: 'Project', color: 'text-green-500' },
                                 ].map((hint) => (
                                     <div key={hint.prefix} className="flex items-center gap-1.5">
-                                        <code className="px-2 py-1 bg-neutral-100 rounded-lg text-[10px] font-mono font-bold text-neutral-600">
+                                        <code className="px-2 py-1 bg-neutral-100 dark:bg-neutral-700 rounded-lg text-[10px] font-mono font-bold text-neutral-600 dark:text-neutral-300">
                                             {hint.prefix}
                                         </code>
                                         <span className={cn("text-[10px] font-bold", hint.color)}>

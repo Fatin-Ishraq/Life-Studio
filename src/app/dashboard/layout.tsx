@@ -3,7 +3,8 @@
 import { Sidebar } from '@/components/Sidebar';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function DashboardLayout({
     children,
@@ -12,6 +13,21 @@ export default function DashboardLayout({
 }) {
     const { firebaseUser, loading } = useAuth();
     const router = useRouter();
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
+    useEffect(() => {
+        // Load preference from localStorage
+        const saved = localStorage.getItem('sidebar-collapsed');
+        if (saved === 'true') {
+            setIsCollapsed(true);
+        }
+    }, []);
+
+    const toggleSidebar = () => {
+        const newState = !isCollapsed;
+        setIsCollapsed(newState);
+        localStorage.setItem('sidebar-collapsed', String(newState));
+    };
 
     useEffect(() => {
         if (!loading && !firebaseUser) {
@@ -35,9 +51,14 @@ export default function DashboardLayout({
     }
 
     return (
-        <div className="flex h-screen">
-            <Sidebar />
-            <main className="flex-1 ml-64 overflow-y-auto">
+        <div className="flex h-screen overflow-hidden">
+            <Sidebar isCollapsed={isCollapsed} onToggle={toggleSidebar} />
+            <main
+                className={cn(
+                    "flex-1 overflow-y-auto transition-all duration-300 custom-scrollbar",
+                    isCollapsed ? "ml-20" : "ml-72"
+                )}
+            >
                 {children}
             </main>
         </div>

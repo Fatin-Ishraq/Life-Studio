@@ -30,6 +30,7 @@ export interface Task {
     priority: 'low' | 'medium' | 'high' | 'urgent';
     due_date: string | null;
     completed_at: string | null;
+    complexity: 'easy' | 'medium' | 'hard' | null;
     created_at: string;
     updated_at: string;
 }
@@ -43,6 +44,8 @@ export interface Session {
     started_at: string;
     ended_at: string | null;
     notes: string | null;
+    flow_state: number | null;
+    distraction_level: number | null;
     created_at: string;
 }
 
@@ -83,6 +86,13 @@ export interface ReadingItem {
     progress_pages: number;
     total_pages: number | null;
     notes: string | null;
+    aha_moment: string | null;
+    cover_url: string | null;
+    rating: number | null;
+    started_at: string | null;
+    completed_at: string | null;
+    tags: string[] | null;
+    link: string | null;
     created_at: string;
     updated_at: string;
 }
@@ -142,6 +152,12 @@ export interface UserPreferences {
     user_id: string;
     day_start_time: string;  // "06:00"
     day_end_time: string;    // "23:00"
+    pomo_duration: number; // default 25
+    short_break_duration: number; // default 5
+    long_break_duration: number; // default 15
+    deep_work_duration: number; // default 50
+    timer_sound: boolean; // default true
+    auto_archive_captures: boolean; // default true
     created_at: string;
     updated_at: string;
 }

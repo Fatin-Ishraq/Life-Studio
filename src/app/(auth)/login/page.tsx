@@ -44,46 +44,46 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-neutral-50">
+        <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-neutral-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950">
             {/* Background Decorations */}
-            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-primary-500/10 to-violet-500/10 blur-[120px] rounded-full -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gradient-to-br from-cyan-500/10 to-blue-500/10 blur-[120px] rounded-full translate-x-1/2 translate-y-1/2" />
+            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-primary-500/10 to-violet-500/10 dark:from-primary-500/20 dark:to-violet-500/20 blur-[120px] rounded-full -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gradient-to-br from-cyan-500/10 to-blue-500/10 dark:from-cyan-500/20 dark:to-blue-500/20 blur-[120px] rounded-full translate-x-1/2 translate-y-1/2" />
 
             <div className="w-full max-w-md relative z-10">
                 {/* Logo/Brand */}
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-[20px] bg-neutral-900 shadow-xl shadow-neutral-200 mb-6">
-                        <Zap className="h-8 w-8 text-white" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-[20px] bg-neutral-900 dark:bg-white shadow-xl shadow-neutral-200 dark:shadow-black/40 mb-6">
+                        <Zap className="h-8 w-8 text-white dark:text-neutral-900" />
                     </div>
-                    <h1 className="text-3xl font-black text-neutral-900 tracking-tight">
+                    <h1 className="text-3xl font-black text-neutral-900 dark:text-white tracking-tight">
                         Welcome Back
                     </h1>
-                    <p className="mt-2 text-neutral-500 font-medium">
+                    <p className="mt-2 text-neutral-500 dark:text-neutral-400 font-medium">
                         Sign in to your Life Cockpit
                     </p>
                 </div>
 
                 {/* Card */}
-                <div className="bg-white/80 backdrop-blur-2xl rounded-[32px] shadow-2xl shadow-neutral-200/50 border border-white/50 p-8">
+                <div className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-2xl rounded-[32px] shadow-2xl shadow-neutral-200/50 dark:shadow-black/40 border border-white/50 dark:border-white/10 p-8">
                     {error && (
-                        <div className="mb-6 p-4 rounded-2xl bg-red-50 border border-red-100">
-                            <p className="text-sm font-medium text-red-600">{error}</p>
+                        <div className="mb-6 p-4 rounded-2xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30">
+                            <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p>
                         </div>
                     )}
 
                     <form onSubmit={handleEmailSignIn} className="space-y-5">
                         <div className="space-y-2">
-                            <label htmlFor="email" className="text-[10px] font-black uppercase text-neutral-400 tracking-widest block pl-1">
+                            <label htmlFor="email" className="text-[10px] font-black uppercase text-neutral-400 dark:text-neutral-500 tracking-widest block pl-1">
                                 Email Address
                             </label>
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400 group-focus-within:text-neutral-900 transition-colors" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400 group-focus-within:text-neutral-900 dark:group-focus-within:text-white transition-colors" />
                                 <input
                                     id="email"
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-4 bg-neutral-50 rounded-2xl border border-neutral-100 focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/5 transition-all font-medium text-neutral-900 placeholder:text-neutral-300"
+                                    className="w-full pl-12 pr-4 py-4 bg-neutral-50 dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 focus:outline-none focus:border-neutral-900 dark:focus:border-white focus:ring-2 focus:ring-neutral-900/5 dark:focus:ring-white/5 transition-all font-medium text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
                                     placeholder="you@example.com"
                                     required
                                 />
@@ -91,17 +91,17 @@ export default function LoginPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label htmlFor="password" className="text-[10px] font-black uppercase text-neutral-400 tracking-widest block pl-1">
+                            <label htmlFor="password" className="text-[10px] font-black uppercase text-neutral-400 dark:text-neutral-500 tracking-widest block pl-1">
                                 Password
                             </label>
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400 group-focus-within:text-neutral-900 transition-colors" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400 group-focus-within:text-neutral-900 dark:group-focus-within:text-white transition-colors" />
                                 <input
                                     id="password"
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-4 bg-neutral-50 rounded-2xl border border-neutral-100 focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/5 transition-all font-medium text-neutral-900 placeholder:text-neutral-300"
+                                    className="w-full pl-12 pr-4 py-4 bg-neutral-50 dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 focus:outline-none focus:border-neutral-900 dark:focus:border-white focus:ring-2 focus:ring-neutral-900/5 dark:focus:ring-white/5 transition-all font-medium text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
                                     placeholder="••••••••"
                                     required
                                 />
@@ -112,8 +112,8 @@ export default function LoginPage() {
                             type="submit"
                             disabled={loading}
                             className={cn(
-                                "w-full py-4 bg-neutral-900 text-white rounded-2xl font-bold text-base transition-all",
-                                "shadow-xl shadow-neutral-200 hover:bg-neutral-800 active:scale-[0.98]",
+                                "w-full py-4 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-2xl font-bold text-base transition-all",
+                                "shadow-xl shadow-neutral-200/50 dark:shadow-black/40 hover:bg-neutral-800 dark:hover:bg-neutral-100 active:scale-[0.98]",
                                 "disabled:opacity-50 disabled:cursor-not-allowed",
                                 "flex items-center justify-center gap-3"
                             )}
@@ -131,10 +131,10 @@ export default function LoginPage() {
 
                     <div className="relative my-8">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-neutral-100"></div>
+                            <div className="w-full border-t border-neutral-100 dark:border-neutral-800"></div>
                         </div>
                         <div className="relative flex justify-center">
-                            <span className="bg-white px-4 text-xs font-bold text-neutral-400 uppercase tracking-widest">
+                            <span className="bg-white dark:bg-neutral-900 px-4 text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">
                                 Or continue with
                             </span>
                         </div>
@@ -144,10 +144,10 @@ export default function LoginPage() {
                         onClick={handleGoogleSignIn}
                         disabled={loading}
                         className={cn(
-                            "w-full py-4 bg-white border-2 border-neutral-200 rounded-2xl font-bold text-neutral-900 transition-all",
-                            "hover:bg-neutral-50 hover:border-neutral-300 active:scale-[0.98]",
+                            "w-full py-4 bg-white dark:bg-neutral-900 border-2 border-neutral-200 dark:border-neutral-800 rounded-2xl font-bold text-neutral-900 dark:text-white transition-all",
+                            "hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 active:scale-[0.98]",
                             "disabled:opacity-50 disabled:cursor-not-allowed",
-                            "flex items-center justify-center gap-3"
+                            "flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
                         )}
                     >
                         <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -159,16 +159,16 @@ export default function LoginPage() {
                         Continue with Google
                     </button>
 
-                    <p className="mt-8 text-center text-sm font-medium text-neutral-500">
+                    <p className="mt-8 text-center text-sm font-medium text-neutral-500 dark:text-neutral-400">
                         Don&apos;t have an account?{' '}
-                        <Link href="/signup" className="font-bold text-neutral-900 hover:text-primary-600 transition-colors">
+                        <Link href="/signup" className="font-bold text-neutral-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                             Create one →
                         </Link>
                     </p>
                 </div>
 
                 {/* Footer */}
-                <p className="mt-8 text-center text-xs font-medium text-neutral-400">
+                <p className="mt-8 text-center text-xs font-medium text-neutral-400 dark:text-neutral-500">
                     By continuing, you agree to our Terms of Service
                 </p>
             </div>
