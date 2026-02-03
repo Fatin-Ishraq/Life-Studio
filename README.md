@@ -2,6 +2,8 @@
 
 A basic personal productivity dashboard. That's it.
 
+## visit : https://life-studio.vercel.app/dashboard
+
 ## What is this?
 
 Like everyone else, I wanted to build my own to-do list / habit tracker / life organization app. It started as a way to learn modern web development and turned into something functional enough to actually use.
