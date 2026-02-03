@@ -60,7 +60,7 @@ export default function SignUpPage() {
                         Create Account
                     </h1>
                     <p className="mt-2 text-neutral-500 dark:text-neutral-400 font-medium">
-                        Start your journey with Life Cockpit
+                        Start your journey with Life Studio
                     </p>
                 </div>
 

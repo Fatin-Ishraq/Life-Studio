@@ -117,7 +117,7 @@ export async function getCategoryDistribution(userId: string) {
 
     const distribution: Record<string, { minutes: number, color: string }> = {};
 
-    sessions?.forEach((s: { duration_minutes: number, projects: any }) => {
+    sessions?.forEach((s) => {
         const project = Array.isArray(s.projects) ? s.projects[0] : s.projects;
         const projectName = project?.name || 'Uncategorized';
         const color = project?.color || '#cbd5e1';

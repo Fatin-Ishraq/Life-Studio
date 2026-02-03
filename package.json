@@ -1,7 +1,10 @@
 {
   "name": "tuilifedash",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "A basic personal productivity dashboard",
+  "author": "",
+  "repository": "https://github.com/yourusername/tuilifedash",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +12,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.93.2",
     "@tanstack/react-query": "^5.90.20",
     "class-variance-authority": "^0.7.1",

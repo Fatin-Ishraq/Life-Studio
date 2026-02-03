@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Life Cockpit - Your Personal Command Center",
+  title: "Life Studio - Your Personal Productivity Hub",
   description: "A modern productivity dashboard for managing projects, habits, focus sessions, and learning.",
 };
 

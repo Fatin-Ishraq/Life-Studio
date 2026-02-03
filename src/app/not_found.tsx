@@ -55,7 +55,7 @@ export default function NotFound() {
                     Signal Lost.
                 </p>
                 <p className="text-neutral-500 dark:text-neutral-400 font-medium leading-relaxed">
-                    This coordinate hasn't been mapped in the Cockpit yet. The system is still in active development.
+                    This coordinate hasn&apos;t been mapped in the Studio yet. The system is still in active development.
                 </p>
             </motion.div>
 
@@ -83,7 +83,7 @@ export default function NotFound() {
                 className="absolute bottom-12"
             >
                 <p className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500">
-                    Cockpit Core Integration v0.4
+                    Life Studio v1.0
                 </p>
             </motion.div>
         </div>

@@ -10,7 +10,6 @@ import {
     CheckSquare,
     Timer,
     Activity,
-    TrendingUp,
     Archive,
     CheckCircle2,
     Sparkles,
@@ -23,8 +22,7 @@ import {
     getProjectStats,
     createProject
 } from '@/lib/supabase/projectService';
-import type { Project } from '@/types/database';
-import type { ProjectStats, ProjectWithStats } from '@/lib/supabase/projectService';
+import type { ProjectWithStats } from '@/lib/supabase/projectService';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { cn } from '@/lib/utils';
 

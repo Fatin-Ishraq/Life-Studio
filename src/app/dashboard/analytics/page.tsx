@@ -20,7 +20,6 @@ import {
     Heart,
     Brain,
     Target,
-    Calendar,
     Flame,
     BarChart3,
     PieChart
@@ -216,7 +215,7 @@ export default function AnalyticsDashboard() {
                             <EmptyChart message="No focus sessions recorded yet" />
                         ) : (
                             <div className="h-48 flex items-end gap-2">
-                                {trends.map((t, i) => (
+                                {trends.map((t) => (
                                     <div key={t.date} className="flex-1 flex flex-col items-center gap-2 group">
                                         <div className="relative w-full">
                                             <div

@@ -55,7 +55,7 @@ export default function NotFound() {
                     Signal Lost.
                 </p>
                 <p className="text-neutral-500 dark:text-neutral-400 font-medium leading-relaxed">
-                    This coordinate hasn&apos;t been mapped in the Cockpit yet. The system is still in active development.
+                    This page doesn&apos;t exist yet. Maybe someday.
                 </p>
             </motion.div>
 

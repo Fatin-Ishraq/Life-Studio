@@ -13,13 +13,10 @@ import {
     LogOut,
     Zap,
     ChevronRight,
-    Sun,
-    Moon,
     ChevronLeft
 } from 'lucide-react';
 import { signOut } from '@/lib/firebase/auth';
 import { useAuth } from '@/lib/auth/AuthContext';
-import { useTheme } from '@/lib/theme/ThemeContext';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -40,7 +37,6 @@ interface SidebarProps {
 export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
     const pathname = usePathname();
     const { firebaseUser } = useAuth();
-    const { resolvedTheme, toggleTheme } = useTheme();
 
     const handleSignOut = async () => {
         await signOut();
@@ -86,7 +82,7 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
                             className="overflow-hidden whitespace-nowrap"
                         >
                             <h1 className="text-xl font-black text-neutral-900 dark:text-white tracking-tight">
-                                Life Cockpit
+                                Life Studio
                             </h1>
                             <div className="flex items-center gap-1.5">
                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -177,18 +173,6 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
                         "flex transition-all duration-300",
                         isCollapsed ? "flex-col gap-1" : "gap-2"
                     )}>
-                        {/* Theme Toggle */}
-                        <button
-                            onClick={toggleTheme}
-                            className="flex-1 flex items-center justify-center p-2 rounded-xl bg-white dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 hover:text-neutral-900 dark:hover:text-white border border-neutral-100 dark:border-neutral-700 transition-all shadow-sm"
-                            title={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                        >
-                            {resolvedTheme === 'dark' ? (
-                                <Sun className="h-4 w-4" />
-                            ) : (
-                                <Moon className="h-4 w-4" />
-                            )}
-                        </button>
                         {!isCollapsed && (
                             <Link
                                 href="/dashboard/settings"
@@ -222,7 +206,7 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
                             className="text-center"
                         >
                             <p className="text-[9px] font-black uppercase tracking-[0.25em] text-neutral-400 dark:text-neutral-600">
-                                V0.4.5 Fusion
+                                Life Studio v1.0
                             </p>
                         </motion.div>
                     )}

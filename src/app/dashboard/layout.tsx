@@ -13,15 +13,13 @@ export default function DashboardLayout({
 }) {
     const { firebaseUser, loading } = useAuth();
     const router = useRouter();
-    const [isCollapsed, setIsCollapsed] = useState(false);
-
-    useEffect(() => {
-        // Load preference from localStorage
-        const saved = localStorage.getItem('sidebar-collapsed');
-        if (saved === 'true') {
-            setIsCollapsed(true);
+    const [isCollapsed, setIsCollapsed] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('sidebar-collapsed');
+            return saved === 'true';
         }
-    }, []);
+        return false;
+    });
 
     const toggleSidebar = () => {
         const newState = !isCollapsed;

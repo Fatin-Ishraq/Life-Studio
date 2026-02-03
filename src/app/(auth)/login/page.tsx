@@ -59,7 +59,7 @@ export default function LoginPage() {
                         Welcome Back
                     </h1>
                     <p className="mt-2 text-neutral-500 dark:text-neutral-400 font-medium">
-                        Sign in to your Life Cockpit
+                        Sign in to your Life Studio
                     </p>
                 </div>
 

@@ -9,7 +9,6 @@ import {
     Settings,
     User,
     Clock,
-    Sun,
     Moon,
     Monitor,
     Bell,
@@ -29,7 +28,7 @@ import { cn } from '@/lib/utils';
 const APP_VERSION = '1.0.0';
 const BUILD_DATE = '2026-01-30';
 
-type Theme = 'light' | 'dark' | 'system';
+type Theme = 'dark' | 'system';
 
 export default function SettingsPage() {
     const router = useRouter();
@@ -37,8 +36,13 @@ export default function SettingsPage() {
     const [prefs, setPrefs] = useState<UserPreferences | null>(null);
     const [loading, setLoading] = useState(true);
     // const [saving, setSaving] = useState(false); // Unused
-    const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-    const [theme, setTheme] = useState<Theme>('system');
+    const [theme, setTheme] = useState<Theme>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('theme') as Theme | null;
+            if (saved) return saved;
+        }
+        return 'dark';
+    });
     const [showClearConfirm, setShowClearConfirm] = useState(false);
 
     useEffect(() => {
@@ -47,31 +51,17 @@ export default function SettingsPage() {
                 .then(setPrefs)
                 .finally(() => setLoading(false));
         }
-
-        // Get current theme
-        const savedTheme = localStorage.getItem('theme') as Theme | null;
-        if (savedTheme) setTheme(savedTheme);
     }, [supabaseUser]);
 
     const handleUpdate = async (updates: Partial<UserPreferences>) => {
         if (!supabaseUser || !prefs) return;
 
         try {
-            setSaving(true);
             const updated = await updateUserPreferences(supabaseUser.id, updates);
             setPrefs(updated);
-            showMessage('Settings saved', 'success');
         } catch (error) {
             console.error('Error updating settings:', error);
-            showMessage('Failed to save settings', 'error');
-        } finally {
-            setSaving(false);
         }
-    };
-
-    const showMessage = (text: string, type: 'success' | 'error') => {
-        setMessage({ type, text });
-        setTimeout(() => setMessage(null), 3000);
     };
 
     const handleThemeChange = (newTheme: Theme) => {
@@ -80,17 +70,13 @@ export default function SettingsPage() {
 
         if (newTheme === 'dark') {
             document.documentElement.classList.add('dark');
-        } else if (newTheme === 'light') {
-            document.documentElement.classList.remove('dark');
         } else {
-            // System preference
             if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark');
             }
         }
-        showMessage('Theme updated', 'success');
     };
 
     const handleSignOut = async () => {
@@ -99,19 +85,20 @@ export default function SettingsPage() {
             router.push('/');
         } catch (error) {
             console.error('Error signing out:', error);
-            showMessage('Failed to sign out', 'error');
         }
     };
 
-    const userInitials = (supabaseUser as any)?.user_metadata?.full_name
+    const userMetadata = supabaseUser as { user_metadata?: { full_name?: string; avatar_url?: string } };
+    const fullName = userMetadata.user_metadata?.full_name;
+    const userInitials = fullName
         ?.split(' ')
         .map((n: string) => n[0])
         .join('')
         .toUpperCase()
         .slice(0, 2) || 'U';
 
-    const userPhoto = (supabaseUser as any)?.user_metadata?.avatar_url;
-    const userName = (supabaseUser as any)?.user_metadata?.full_name || 'User';
+    const userPhoto = userMetadata.user_metadata?.avatar_url;
+    const userName = fullName || 'User';
     const userEmail = supabaseUser?.email || '';
 
     if (loading) {
@@ -254,13 +241,7 @@ export default function SettingsPage() {
                 <Section icon={Palette} title="Appearance" color="bg-violet-500/10 text-violet-500">
                     <div className="space-y-4">
                         <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-1">Theme</label>
-                        <div className="grid grid-cols-3 gap-3">
-                            <ThemeButton
-                                icon={Sun}
-                                label="Light"
-                                active={theme === 'light'}
-                                onClick={() => handleThemeChange('light')}
-                            />
+                        <div className="grid grid-cols-2 gap-3">
                             <ThemeButton
                                 icon={Moon}
                                 label="Dark"
@@ -315,7 +296,6 @@ export default function SettingsPage() {
                                     <button
                                         onClick={() => {
                                             localStorage.clear();
-                                            showMessage('Local data cleared', 'success');
                                             setShowClearConfirm(false);
                                         }}
                                         className="px-4 py-2 bg-red-500 text-white rounded-xl text-sm font-bold hover:bg-red-600 transition-colors"
@@ -339,8 +319,8 @@ export default function SettingsPage() {
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h3 className="text-xl font-black text-neutral-900 dark:text-white">Life Cockpit</h3>
-                                <p className="text-sm text-neutral-500">Your personal productivity command center</p>
+                                <h3 className="text-xl font-black text-neutral-900 dark:text-white">Life Studio</h3>
+                                <p className="text-sm text-neutral-500">Your personal productivity hub</p>
                             </div>
                             <div className="text-right">
                                 <div className="text-2xl font-black text-neutral-900 dark:text-white">v{APP_VERSION}</div>
@@ -357,7 +337,7 @@ export default function SettingsPage() {
 
                         <div className="pt-4 border-t border-neutral-100 dark:border-neutral-800 text-center">
                             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400">
-                                © 2025 Life Cockpit. All rights reserved.
+                                © 2025 Life Studio. All rights reserved.
                             </p>
                         </div>
                     </div>

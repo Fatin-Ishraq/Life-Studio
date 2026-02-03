@@ -13,6 +13,7 @@ type SessionType = 'pomodoro' | 'deep_work' | 'custom' | 'break';
 interface FocusTimerProps {
     initialMinutes?: number;
     onComplete?: () => void;
+    showAmbientMode?: boolean;
 }
 
 // Pre-generate particle positions to avoid Math.random during render
@@ -33,7 +34,7 @@ function generateParticles(count: number, spread: { min: number; max: number }):
     }));
 }
 
-export function FocusTimer({ initialMinutes = 25, onComplete }: FocusTimerProps) {
+export function FocusTimer({ initialMinutes = 25, onComplete, showAmbientMode }: FocusTimerProps) {
     const [minutes, setMinutes] = useState(initialMinutes);
     const [seconds, setSeconds] = useState(0);
     const [customHours, setCustomHours] = useState(0);
@@ -470,7 +471,7 @@ export function FocusTimer({ initialMinutes = 25, onComplete }: FocusTimerProps)
             </div>
 
             {/* Ambient Mode Toggle (when timer is running) */}
-            {isActive && (
+{isActive && showAmbientMode !== false && (
                 <button
                     onClick={() => setIsAmbientMode(true)}
                     className="mb-6 flex items-center gap-2 px-4 py-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all text-sm font-bold"

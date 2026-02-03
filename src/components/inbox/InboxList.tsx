@@ -109,8 +109,9 @@ export function InboxList({ onRefresh, refreshTrigger }: InboxListProps) {
             setProcessingCapture(null);
             await loadData();
             onRefresh?.(Date.now());
-        } catch (error: any) {
-            console.error('Error converting to task:', error.message || error);
+        } catch (error) {
+            const err = error as { message?: string };
+            console.error('Error converting to task:', err.message || error);
         } finally {
             setIsConverting(false);
         }
@@ -142,7 +143,7 @@ export function InboxList({ onRefresh, refreshTrigger }: InboxListProps) {
     const handleDelete = async (captureId: string) => {
         try {
             await deleteCapture(captureId);
-            setCaptures((prev: Capture[]) => prev.filter((c: Capture) => c.id !== captureId));
+            setCaptures((prev) => prev.filter((c) => c.id !== captureId));
         } catch (error) {
             console.error('Error deleting capture:', error);
         }
@@ -238,7 +239,7 @@ export function InboxList({ onRefresh, refreshTrigger }: InboxListProps) {
                             <div className="space-y-8">
                                 <div className="p-6 bg-neutral-50 dark:bg-neutral-800/50 rounded-3xl border border-neutral-100 dark:border-neutral-700/50">
                                     <p className="text-lg font-bold text-neutral-900 dark:text-white leading-relaxed italic">
-                                        "{processingCapture.content}"
+                                        &quot;{processingCapture.content}&quot;
                                     </p>
                                 </div>
 
